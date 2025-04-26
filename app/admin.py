@@ -35,5 +35,12 @@ class ProjectFileAdmin(admin.ModelAdmin):
     
     actions = [start_video_processing]  
 
+@admin.register(ASMR)   
+class ASMRAdmin(admin.ModelAdmin):
+    fields = ('file', 'created_at')
 
-admin.site.register(ASMR)
+    def has_add_permission(self, request):
+        return False
+    
+    def has_change_permission(self, request, obj = ...):
+        return False

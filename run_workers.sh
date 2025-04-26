@@ -1,3 +1,10 @@
+if [ -d "logs" ]; then
+    echo "Очищаем старые логи..."
+    rm -f logs/*
+else
+    mkdir logs
+fi
+
 mkdir -p logs
 
 celery -A core worker -Q asmr_cutting --concurrency=1 --loglevel=info > logs/celery_asmr.log 2>&1 &

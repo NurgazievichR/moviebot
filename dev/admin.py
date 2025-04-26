@@ -11,3 +11,9 @@ class FormatSettingsAdmin(admin.ModelAdmin):
         return ", ".join(obj.get_allowed_list())
 
     allowed_extensions_display.short_description = "Допустимые расширения"
+
+    def has_add_permission(self, request):
+        """Разрешить добавление только если нет ни одной записи."""
+        if FormatSettings.objects.exists():
+            return False
+        return super().has_add_permission(request)
