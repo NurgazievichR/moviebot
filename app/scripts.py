@@ -23,13 +23,17 @@ def randomize_video(input_path, output_path):
 
     command = [
         'ffmpeg',
+        '-y',  
         '-i', input_path,
         '-vf', filter_chain,
-        '-an',  # ВСЕГДА убираем звук
-        '-preset', 'fast',
+        '-c:v', 'libx264',   
+        '-preset', 'veryfast',  
+        '-crf', '28',  
+        '-b:v', '1M',  
+        '-an',  # убираем звук
         output_path
     ]
 
-    # print("Running command:", " ".join(command))
+    print("Running command:", " ".join(command))
 
     subprocess.run(command, check=True)
