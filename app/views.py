@@ -1,11 +1,14 @@
 import tempfile
 import os
 from django.shortcuts import render, redirect
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+
 from .forms import UploadFilesForm, UploadASMRForm
 from .models import ProjectFile
 from .tasks import cut_asmr_task
-from django.conf import settings
 
+@login_required
 def upload_files(request):
     if request.method == 'POST':
         form = UploadFilesForm(request.POST, request.FILES)
@@ -21,6 +24,7 @@ def upload_files(request):
     uploaded_files = ProjectFile.objects.all().order_by('-uploaded_at') 
     return render(request, 'upload_files.html', {'form': form, 'uploaded_files': uploaded_files})
 
+@login_required
 def upload_asmr(request):
     if request.method == 'POST':
         form = UploadASMRForm(request.POST, request.FILES)

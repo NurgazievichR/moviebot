@@ -20,8 +20,14 @@ class MultipleFileField(forms.FileField):
         return result
 
 class UploadFilesForm(forms.Form):  
-    project = forms.ModelChoiceField(queryset=Project.objects.all(), label="Выберите проект")
+    project = forms.CharField(label="Введите название проекта")
     files = MultipleFileField(label="Выберите файлы")
+
+    def clean_project(self):
+        name = self.cleaned_data['project']
+        if Project.objects.filter(name=name).exists():
+            raise forms.ValidationError("Проект с таким названием уже существует.")
+        return name
 
     def clean_files(self):
         files = self.cleaned_data.get('files')
