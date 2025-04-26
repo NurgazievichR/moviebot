@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Files</title>
+</head>
+<body>
+
+    <h2>Upload Files to Project</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+
+    <hr>
+
+    <h3>Uploaded Files:</h3>
+    <ul>
+        {% for file in uploaded_files %}
+            <li>{{ file.file.url }}</li>
+        {% empty %}
+            <li>No files uploaded yet.</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
