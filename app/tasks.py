@@ -7,9 +7,10 @@ from celery import shared_task
 from .models import ASMR, ProjectFile
 from .scripts import randomize_video
 
-@shared_task
+@shared_task(queue='default')
 def process_video(file_id):
-    """Таска для обработки ProjectFile"""
+    """Таска для обработки ProjectFile."""
+
     video = ProjectFile.objects.get(id=file_id)
     video.status = 'processing'
     video.save()
@@ -24,7 +25,7 @@ def process_video(file_id):
     video.status = 'ready'
     video.save()
 
-    return f"Видео {video.file.name} обработано"
+    return f"Видео {video.file.name} обработано."
 
 @shared_task(queue='asmr_cutting')
 def cut_asmr_task(temp_input_relpath):

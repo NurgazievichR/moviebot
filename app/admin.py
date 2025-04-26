@@ -6,6 +6,7 @@ from .tasks import process_video
 def start_video_processing(modeladmin, request, queryset):
     for project_file in queryset:
         process_video.delay(project_file.id) 
+        print('gere')
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
